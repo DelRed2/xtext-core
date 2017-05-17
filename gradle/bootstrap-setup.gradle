@@ -19,9 +19,9 @@ configurations {
 		description 'Bootstrap dependencies for the Xtend compiler'
 		resolutionStrategy {
 			eachDependency {
-				if (requested.group == 'org.eclipse.xtext' || requested.group == 'org.eclipse.xtend')
+				if (requested.group == 'com._1c.org.eclipse.xtext' || requested.group == 'org.eclipse.xtext' || requested.group == 'org.eclipse.xtend')
 					useVersion(bootstrapXtendVersion)
-				if (requested.group == 'com.google.inject' && requested.name == 'guice')
+				if (requested.group == 'com._1c.guice' || requested.group == 'com.google.inject' && requested.name == 'guice')
 					useVersion(versions.guice)
 			}
 		}

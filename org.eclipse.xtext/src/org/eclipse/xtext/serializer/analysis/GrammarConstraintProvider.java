@@ -10,6 +10,7 @@ package org.eclipse.xtext.serializer.analysis;
 import static org.eclipse.xtext.serializer.analysis.IGrammarConstraintProvider.ConstraintElementType.*;
 import static org.eclipse.xtext.serializer.analysis.ISemanticSequencerNfaProvider.*;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -110,11 +111,14 @@ public class GrammarConstraintProvider implements IGrammarConstraintProvider {
 			idAndDistance.put(currentNode, new DijkstraNode());
 			// The unvisited nodes are sorted by their tentative distance.
 			// Nodes with equal distance still have to be separated, which is achieved with the id value. 
-			NavigableSet<ISemState> unvisited = new TreeSet<>(Comparator.comparing((s) -> {
-				return idAndDistance.get(s).distance;
-			}).thenComparing((s) -> {
-				return idAndDistance.get(s).id;
-			}));
+			
+			Function<ISemState, Integer> keyExtractor = (s) -> idAndDistance.get(s).distance;
+            
+			Comparator<ISemState> comp =
+	            ((Comparator<ISemState>)(c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2)))
+	            .thenComparing((s) -> idAndDistance.get(s).id);
+			
+			NavigableSet<ISemState> unvisited = new TreeSet<>(comp);
 			int nextStateId = 1;
 			do {
 				int currentDistance = idAndDistance.get(currentNode).distance;

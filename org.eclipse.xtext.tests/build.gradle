@@ -1,6 +1,7 @@
 apply from: "${rootDir}/gradle/mwe2-workflows.gradle"
 
 dependencies {
+	compile project(':org.eclipse.xtext')
 	compile project(':org.eclipse.xtext.testing')
 	compile project(':org.eclipse.xtext.xtext.generator')
 	compile project(':org.eclipse.xtext.xtext.wizard')

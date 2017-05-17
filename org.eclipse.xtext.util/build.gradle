@@ -1,12 +1,16 @@
 ext.title = 'Xtext Utilities'
 description = 'Utility classes used throughout Xtext.'
 
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'maven-publish'
+
 dependencies {
-	compile "org.eclipse.xtend:org.eclipse.xtend.lib:$versions.xtext"
-	compile "log4j:log4j:$versions.log4j"
+	compile "com._1c.osgi.wrapped:com._1c.org.apache.log4j:$versions.log4j"
 	compile "org.eclipse.emf:org.eclipse.emf.common:$versions.emfCommon"
 	compile "org.eclipse.emf:org.eclipse.emf.ecore:$versions.emfEcore"
-	compile "com.google.inject:guice:$versions.guice"
+	compile "com._1c.osgi.wrapped:com._1c.guice:$versions.guice"
+	
+	compileOnly "org.eclipse.xtend:org.eclipse.xtend.lib:$versions.xtext"
 }
 
 // Set the value of the Maven-Version attribute

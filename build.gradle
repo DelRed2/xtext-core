@@ -11,6 +11,7 @@ buildscript {
 	dependencies {
 		classpath "org.xtext:xtext-gradle-plugin:$versions.xtext_gradle_plugin"
 		classpath "io.typefox.gradle:gradle-p2gen:$versions.gradle_plugins"
+		classpath "me.tatarka:gradle-retrolambda:3.2.3"
 	}
 }
 
@@ -21,7 +22,7 @@ apply from: "${rootDir}/gradle/p2-deployment.gradle"
 ext.buildTime = DateTimeFormatter.ofPattern('yyyyMMdd-HHmm').format(LocalDateTime.now())
 
 subprojects {
-	group = 'org.eclipse.xtext'
+	group = 'com._1c.org.eclipse.xtext'
 	version = rootProject.version
 	
 	apply plugin: 'java'
@@ -41,10 +42,67 @@ subprojects {
 	}
 	apply from: "${rootDir}/gradle/manifest-gen.gradle"
 	apply from: "${rootDir}/gradle/validation.gradle"
+	
+    afterEvaluate { project ->
+    
+    	if (hasPlugin(project, 'me.tatarka.RetrolambdaPlugin')) {
+			retrolambda {
+				jdk System.getenv("JAVA8_HOME")
+				oldJdk System.getenv("JAVA7_HOME")
+				javaVersion JavaVersion.VERSION_1_7
+			}
+		}
+    
+		if (hasPlugin(project, 'org.gradle.api.publish.maven.plugins.MavenPublishPlugin')) {
+ 			artifacts {
+			    archives sourcesJar
+			}            		
+					
+			publishing {
+			    publications {
+			        mavenJava(MavenPublication) {
+			            groupId "${group}"
+			            artifactId "com._1c." + "${project.name}"
+			            version "${version}"
+			
+			            from components.java
+			            artifact sourcesJar
+			        }
+			    }
+			}
+				
+		}    
+    }
+    
+    // Maven плагин публикует все зависмости в скоупе runtime, что препятствует их транзитивному разрешению
+    // Для всех compile-time зависимостей меняем скоуп на compile
+    afterEvaluate { project ->
+        if(project.hasProperty('publishing')) {
+            publishing.publications.all {
+                pom.withXml {
+                    asNode().dependencies.'*'.findAll() {
+                        it.scope.text() == 'runtime' && project.configurations.compile.allDependencies.find { dep ->
+                            dep.name == it.artifactId.text() || "com._1c." + dep.name == it.artifactId.text()
+                        }
+                    }.each { it.scope*.value = 'compile' }
+                }
+            }
+        }
+    }
 }
 
 task clean(type: Delete) {
 	group 'Build'
 	description 'Deletes the local repositories'
 	delete 'build'
+}
+
+ext.hasPlugin = { project, pluginName ->
+	def result = false;
+    project.plugins.each {
+       if (it.class.getName().equals(pluginName)) {
+           result = true
+       }   
+    }
+	return result
 }

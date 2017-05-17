@@ -51,7 +51,6 @@ import org.eclipse.xtext.xtext.XtextValidator;
 import org.eclipse.xtext.xtext.XtextValueConverters;
 import org.eclipse.xtext.xtext.CardinalityAwareSyntacticSequencer;
 import org.eclipse.xtext.xtext.ecoreInference.IXtext2EcorePostProcessor;
-import org.eclipse.xtext.xtext.ecoreInference.XtendXtext2EcorePostProcessor;
 import org.eclipse.xtext.xtext.parser.CardinalityAwareEcoreFactory;
 import org.eclipse.xtext.xtext.parser.CardinalityAwareSyntaxErrorMessageProvider;
 
@@ -110,11 +109,11 @@ public class XtextRuntimeModule extends AbstractXtextRuntimeModule {
 	 * @since 2.9
 	 */
 	public void configureIXtext2EcorePostProcessor(Binder binder) {
-		try {
+		/*try {
 			Class.forName("org.eclipse.xtend.expression.ExecutionContext");
 			binder.bind(IXtext2EcorePostProcessor.class).to(XtendXtext2EcorePostProcessor.class);
 		} catch (ClassNotFoundException e) {
-		}
+		}*/
 	}
 
 	@Override
