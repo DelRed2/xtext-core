@@ -8,7 +8,7 @@ include 'org.eclipse.xtext.xtext.generator'
 include 'org.eclipse.xtext.xtext.ide'
 include 'org.eclipse.xtext.xtext.wizard'
 include 'org.eclipse.xtext.testing'
-//include 'org.eclipse.xtext.tests'  // не проходит 60 тестов по причине не совпадения lineending
+include 'org.eclipse.xtext.tests'
 include 'org.eclipse.xtext.ide.tests'
 include 'org.eclipse.xtext.testlanguages'
 include 'org.eclipse.xtext.testlanguages.ide'
