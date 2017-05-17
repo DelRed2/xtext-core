@@ -287,7 +287,7 @@ public class CliWizardIntegrationTest {
   private CliProjectsCreator creator;
   
   @Test
-  @Ignore("Windows lineendings fail")
+  @Ignore("Windows lineending fail")
   public void testProjectCreation() {
     this.creator = CliWizardIntegrationTest.newProjectCreator();
     final Consumer<WizardConfiguration> _function = (WizardConfiguration config) -> {

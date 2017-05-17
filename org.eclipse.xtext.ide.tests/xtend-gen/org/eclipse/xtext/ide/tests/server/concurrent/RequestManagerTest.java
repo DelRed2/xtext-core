@@ -20,6 +20,7 @@ import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -126,6 +127,7 @@ public class RequestManagerTest {
   }
   
   @Test(timeout = 1000)
+  @Ignore("Not stable see https://github.com/eclipse/xtext-core/issues/332")
   public void testRunWriteAfterRead() {
     final Function1<CancelIndicator, Integer> _function = (CancelIndicator it) -> {
       return Integer.valueOf(this.sharedState.incrementAndGet());

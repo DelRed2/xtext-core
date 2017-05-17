@@ -149,7 +149,7 @@ class CliWizardIntegrationTest {
 	CliProjectsCreator creator
 
 	@Test
-	@Ignore("Windows lineendings fail")
+	@Ignore("Windows lineending fail")
 	def testProjectCreation() {
 		creator = newProjectCreator
 		projectConfigs.forEach[config|

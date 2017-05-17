@@ -19,6 +19,7 @@ import org.junit.Before
 import org.junit.Test
 
 import static org.junit.Assert.*
+import org.junit.Ignore
 
 /**
  * @author kosyakov - Initial contribution and API
@@ -96,6 +97,7 @@ class RequestManagerTest {
 	}
 
 	@Test(timeout = 1000)
+	@Ignore("Not stable see https://github.com/eclipse/xtext-core/issues/332")
 	def void testRunWriteAfterRead() {
 		requestManager.runRead [
 			sharedState.incrementAndGet
